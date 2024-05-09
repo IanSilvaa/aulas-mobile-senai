@@ -1,4 +1,4 @@
-import { Text ,View } from "react-native-web";
+import { Text ,View } from "react-native";
 import BotaoCustomizado from "../../comum/componentes/BotaoCustomizado/BotaoCustomizado";
 import TELAS from '../../comum/constantes/telas';
 

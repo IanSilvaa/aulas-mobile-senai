@@ -23,7 +23,7 @@ export default function App() {
   return (
     <View style={estilos.todoApp}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator  screenOptions={{ cardStyle: { flex: 1 } }}>
           <Stack.Screen name={TELAS.TELA_PRINCIPAL} component={TelaPrincipal} options={{title: 'Principal'}}/>
           <Stack.Screen name={TELAS.TELA_CONTADOR} component={TelaContador} options={{ title: 'Contador' }} />
           <Stack.Screen name={TELAS.TELA_FORMULARIO} component={TelaFormulario} options={{ title: 'Formulário' }} />
