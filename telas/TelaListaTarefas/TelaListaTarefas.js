@@ -8,9 +8,9 @@ import estilos from './TelaListaTarefasStyle';
 
 import CampoTextoCustomizado from '../../comum/componentes/CampoTextoCustomizado/CampoTextoCustomizado';
 import BotaoCustomizado from '../../comum/componentes/BotaoCustomizado/BotaoCustomizado';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { adicionarItemStorage, pegarItemStorage } from '../../comum/servicos/servicoStorage';
 import { CHAVES_SOTORAGE } from '../../comum/constantes/chaves-storage';
+import { atualizarItemStorage, limparStorage, pegarItemStorage } from '../../comum/servicos/servicoStorage';
+
 
 const TelaListaTarefas = () => {
   const [listaTarefas, setListaTarefas] = React.useState([]);
@@ -20,7 +20,7 @@ const TelaListaTarefas = () => {
     const atualizarListagemDoStorage = async () => {
       const listagemDosStorage = await pegarItemStorage(CHAVES_SOTORAGE.LISTA_TAREFAS);
       if (listagemDosStorage) {
-        setListaTarefas(JSON.parse(listagemDosStorage));
+        setListaTarefas(listagemDosStorage);
       }
     };
 
@@ -35,13 +35,18 @@ const TelaListaTarefas = () => {
         setListaTarefas(novaLista);
         setCampoDescricao('');
 
-        await adicionarItemStorage(CHAVES_SOTORAGE.LISTA_TAREFAS, novaLista);
+        await atualizarItemStorage(CHAVES_SOTORAGE.LISTA_TAREFAS, novaLista);
       } else {
         alert('Campo descrição é obrigatório.');
       }
     } catch {
       console.log('Deu erro ao adicionar na lista de tarefas.');
     }
+  };
+
+  const limparLista = () => {
+    setListaTarefas([]);
+    limparStorage(CHAVES_SOTORAGE.LISTA_TAREFAS);
   };
 
   return (
@@ -59,11 +64,14 @@ const TelaListaTarefas = () => {
 
       <FlatList
         data={listaTarefas}
-        renderItem={ItemTarefa}
+        // renderItem={ItemTarefa}
+        renderItem={(props) => <ItemTarefa {...props} setListaTarefas={setListaTarefas} />}
         ItemSeparatorComponent={SeparadorListagens}
         ListEmptyComponent={ListagemVazia}
         keyExtractor={(item) => item.id}
       />
+
+      <BotaoCustomizado onPress={limparLista}>Limpar Lista</BotaoCustomizado>
     </SafeAreaView>
   );
 };
