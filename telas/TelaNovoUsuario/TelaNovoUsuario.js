@@ -34,11 +34,11 @@ const TelaNovoUsuario = (props) => {
             </View>
     
     
-            <CampoTextoCustomizado label='Nome' value={campoNome} onchangeText={setCampoNome}/>
-            <CampoTextoCustomizado label='Email' value={campoEmail} onchangeText={setCampoEmail}/>
-            <CampoTextoCustomizado label='Senha' value={campoSenha} onchangeText={setCampoSenha}/>
+            <CampoTextoCustomizado label='Nome' value={campoNome} onChangeText={setCampoNome}/>
+            <CampoTextoCustomizado label='Email' value={campoEmail} onChangeText={setCampoEmail}/>
+            <CampoTextoCustomizado label='Senha' value={campoSenha} onChangeText={setCampoSenha}/>
 
-            <BotaoCustomizado cor='secundaria'>
+            <BotaoCustomizado cor='secundaria' onPress={salvar}>
                 Salvar
             </BotaoCustomizado>
             <BotaoCustomizado onPress={() =>

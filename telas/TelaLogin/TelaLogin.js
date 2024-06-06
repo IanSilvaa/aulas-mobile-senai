@@ -9,17 +9,19 @@ const TelaLogin = (props) => {
     const [campoUsuario, setCampoUsuario] = useState('')
     const [campoSenha, setCampoSenha] = useState('')
 
-    const entrar = () => {
-        if (campoUsuario.trim() && campoSenha.trim()) {
-            // aqui vamos chamar a api do backend para validar login no futuro
-            if (campoUsuario === 'admin' && campoSenha === 'admin') {
-                // redireiconar para "dentro" do app
-                props.navigation.navigate(TELAS.TELA_PRINCIPAL);
-            } else {
-                alert('Usuário ou senha inválida!');
+    const entrar = async () => {
+        try {
+            if (!campoUsuario.trim() || !campoSenha.trim()) {
+                alert('Preencha os campos!');
+                return;
             }
-        } else {
-            alert('Preencha os campos!');
+
+            const response = await api.post('/logar', { email: campoUsuario, senha: campoSenha });
+
+            await atualizarItemStorage(CHAVES_SOTORAGE.USUARIO_LOGADO, response.data);
+            props.navigation.navigate(TELAS.TELA_PRINCIPAL);
+        } catch (error) {
+            alert(error.response.data);
         }
     }
 
@@ -28,7 +30,7 @@ const TelaLogin = (props) => {
             <View style={estilos.containerTituloEntrar}>
                 <Text style={estilos.tituloEntrar}>Entrar</Text>
             </View>
-            <CampoTextoCustomizado label='Usuário' value={campoUsuario} onChangeText={setCampoUsuario} />
+            <CampoTextoCustomizado label='E-mail' value={campoUsuario} onChangeText={setCampoUsuario} />
             <CampoTextoCustomizado label='Senha' value={campoSenha} onChangeText={setCampoSenha} />
             <BotaoCustomizado cor='primaria' onPress={entrar}>
                 Entrar
@@ -41,7 +43,6 @@ const TelaLogin = (props) => {
                 Novo Cadastro
             </BotaoCustomizado>
         </View>
-    )
-}
-
+    );
+};
 export default TelaLogin;
